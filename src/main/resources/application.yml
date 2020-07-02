@@ -1,0 +1,52 @@
+# 端口
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  # ----- 方案一：本地配置 -----
+#  profiles:
+#  # 告诉服务,我现在要启用本地配置(优先考虑采用工程目录resources下配置)
+#    active: native
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          # 搜索配置文件的位置。默认与Spring Boot应用相同，
+#           # [classpath：/，classpath：/ config /，file：./，file：./ config /]。
+#          search-locations: /app/config
+  # ----- 方案二：git配置 -----
+  cloud:
+    config:
+      server:
+        git:
+          # git仓库地址
+          uri: https://localhost/springcloud-config.git
+          username: root
+          password: 123456
+          # 跳过SSL的验证
+          skipSslValidation: true
+#          # 查找路径，默认在根路径下，以下写法表示在更目录下以及folder目录下查找文件
+#          searchPaths: folder
+          # 本地仓库目录设定
+          basedir: /app/config
+
+# Eureka配置
+eureka:
+  instance:
+    # 访问路径可以显示IP地址
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname:localhost}:${eureka.server.port:8761}/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    shutdown:
+      enabled: true
