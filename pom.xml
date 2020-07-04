@@ -30,12 +30,6 @@
 
     <dependencies>
 
-        <!-- eureka server -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-server</artifactId>
-        </dependency>
-
         <!-- eureka client -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
